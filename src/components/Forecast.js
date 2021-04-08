@@ -19,15 +19,15 @@ const Forecast = (props) => {
 
         let hours = date.getHours();
         if (hours.toString().length === 1) {
-            hours = "0" + hours
+            hours = '0' + hours
         }
         let minutes = date.getMinutes();
         if (minutes.toString().length === 1) {
-            minutes = "0" + minutes
+            minutes = '0' + minutes
         }
         let seconds = date.getSeconds();
         if (seconds.toString().length === 1) {
-            seconds = "0" + seconds
+            seconds = '0' + seconds
         }
 
         return (`${hours}:${minutes}:${seconds}`);
@@ -59,13 +59,13 @@ const Forecast = (props) => {
 
     const dayString = (dayIndex) => {
         const weekdays = new Array(7);
-        weekdays[0] = "Sunday";
-        weekdays[1] = "Monday";
-        weekdays[2] = "Tuesday";
-        weekdays[3] = "Wednesday";
-        weekdays[4] = "Thursday";
-        weekdays[5] = "Friday";
-        weekdays[6] = "Saturday";
+        weekdays[0] = 'Sunday';
+        weekdays[1] = 'Monday';
+        weekdays[2] = 'Tuesday';
+        weekdays[3] = 'Wednesday';
+        weekdays[4] = 'Thursday';
+        weekdays[5] = 'Friday';
+        weekdays[6] = 'Saturday';
 
         return weekdays[dayIndex];
     }
@@ -112,7 +112,7 @@ const Forecast = (props) => {
                     : null
                 }
 
-
+                
                 <p>{errorValidate()}</p>
 
             </div>
