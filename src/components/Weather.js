@@ -6,12 +6,13 @@ function Weather() {
 
     const [city, setCity] = useState('');
     const [unit, setUnit] = useState('metric');
+    const [errorMessage, setError] = useState({});
 
     const uriEncodedCity = encodeURIComponent(city);
 
     const [responseObj, setResponseObj] = useState({});
 
-  
+
 
     const getForecast = (e) => {
         e.preventDefault();
@@ -19,6 +20,12 @@ function Weather() {
             .then(response => {
                 setResponseObj(response.data)
                 console.log(response)
+                setError({})
+            })
+            .catch(response => {
+                setError(response.response.data)
+                console.log(errorMessage)
+                setResponseObj({});
             })
     }
 
@@ -26,19 +33,15 @@ function Weather() {
 
     return (
         <div>
-          
-            <div>
-                
-            </div>
             <form onSubmit={getForecast}>
                 <input
                     className="mt-12 mb-4 bg-gray-200 py-2 px-4"
                     type="text"
-                    placeholder="Enter City"
+                    placeholder="Search city weather"
                     maxLength="50"
                     value={city}
                     onChange={(e) => setCity(e.target.value)}
-                    /><br></br>
+                /><br></br>
                 <label className="mr-4">
                     <input
                         type="radio"
@@ -46,7 +49,7 @@ function Weather() {
                         checked={unit === "imperial"}
                         value="imperial"
                         onChange={(e) => setUnit(e.target.value)}
-                        />
+                    />
                     Fahrenheit
                 </label>
                 <label>
@@ -56,13 +59,13 @@ function Weather() {
                         checked={unit === "metric"}
                         value="metric"
                         onChange={(e) => setUnit(e.target.value)}
-                        />
+                    />
                     Celcius
                 </label><br></br>
                 <button className="mt-4 bg-green-300 hover:bg-green-200 transition py-2 px-4 rounded-lg font-bold" type="submit">Get Forecast</button>
-                
+
             </form>
-            <Forecast responseObj={responseObj} unit={unit} />
+            <Forecast responseObj={responseObj} errorMessage={errorMessage} unit={unit} />
         </div>
     );
 }
