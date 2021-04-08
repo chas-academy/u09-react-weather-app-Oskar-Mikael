@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 import Forecast from './Forecast';
-import Search from './Search';
 import axios from 'axios';
 
-function Weather(props) {
+function Weather() {
 
     const [city, setCity] = useState('');
     const [unit, setUnit] = useState('metric');
