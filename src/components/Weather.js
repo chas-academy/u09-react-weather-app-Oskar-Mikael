@@ -11,11 +11,11 @@ function Weather() {
     const uriEncodedCity = encodeURIComponent(city);
 
     const [responseObj, setResponseObj] = useState({});
+    const [responseObjHourly, setResponseObjHourly] = useState({});
 
 
 
-    const getForecast = (e) => {
-        e.preventDefault();
+    const getForecast = () => {
         axios.get(`${process.env.REACT_APP_API_URL}units=${unit}&q=${uriEncodedCity}&appid=${process.env.REACT_APP_API_KEY}`)
             .then(response => {
                 setResponseObj(response.data)
@@ -29,11 +29,26 @@ function Weather() {
             })
     }
 
+    const getHourlyForecast = () => {
+        axios.get(`${process.env.REACT_APP_API_URL_HOURLY}units=${unit}&q=${uriEncodedCity}&appid=${process.env.REACT_APP_API_KEY}`)
+        .then(response => {
+            setResponseObjHourly(response.data)
+            console.log(responseObjHourly)
+            setError({})
+        })
+    }
+
+    const handleFormSubmit = (e) => {
+        e.preventDefault();
+        getForecast();
+        getHourlyForecast();
+    }
+
 
 
     return (
         <div>
-            <form onSubmit={getForecast}>
+            <form onSubmit={handleFormSubmit}>
                 <input
                     className="mt-12 mb-4 bg-gray-200 py-2 px-4"
                     type="text"
@@ -65,7 +80,7 @@ function Weather() {
                 <button className="mt-4 bg-green-300 hover:bg-green-200 transition py-2 px-4 rounded-lg font-bold" type="submit">Get Forecast</button>
 
             </form>
-            <Forecast responseObj={responseObj} errorMessage={errorMessage} unit={unit} />
+            <Forecast responseObj={responseObj} responseObjHourly={responseObjHourly} errorMessage={errorMessage} unit={unit} />
         </div>
     );
 }
