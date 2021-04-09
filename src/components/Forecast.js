@@ -1,4 +1,11 @@
 import React from 'react';
+import cloud from '../assets/cloud.png';
+import sun from '../assets/sun.png';
+import snow from '../assets/snow.png';
+import thunder from '../assets/thunder.png';
+import drizzle from '../assets/drizzle.png';
+import rainy from '../assets/rainy.png';
+
 const Forecast = (props) => {
 
     const response = props.responseObj;
@@ -76,13 +83,31 @@ const Forecast = (props) => {
     const startDate = new Date();
     const aryDates = getDay(startDate, 7);
 
-
+    const weatherType = (weather) => {
+        let weatherImg;
+        if (weather === 'Snow') {
+            weatherImg = snow;
+        } else if (weather === 'Clear') {
+            weatherImg = sun;
+        } else if (weather === 'Thunderstorm') {
+            weatherImg = thunder;
+        } else if (weather === 'Clouds') {
+            weatherImg = cloud;
+        } else if (weather === 'Drizze') {
+            weatherImg = drizzle
+        } else if (weather === 'Rain') {
+            weatherImg = rainy;
+        }
+        
+        return weatherImg;
+    }
 
     return (
         <>
+
             {response.cod === '200' &&
                 <h2 className="text-4xl mt-12">{response.city.name} </h2>}
-            <div className="mt-10 grid grid-cols-3">
+            <div className="mt-10 grid grid-cols-1 md:grid-cols-3">
 
                 {response.cod === '200' ?
 
@@ -91,6 +116,7 @@ const Forecast = (props) => {
 
                         <div key={index} className="mb-10 bg-gray-400 mx-auto p-10 rounded-md">
                             <h3>{aryDates[day]}</h3>
+                            <img src={weatherType(response.list[day].weather[0].main)} className="mx-auto mb-10" alt="cloud" />
                             <p>{capitalize(response.list[day].weather[0].description)}.</p>
 
                             <p><strong>Temperature: </strong>{response.list[day].temp.day} {unit} </p>
@@ -115,7 +141,7 @@ const Forecast = (props) => {
                     : null
                 }
 
-                
+
                 <p>{errorValidate()}</p>
 
             </div>
