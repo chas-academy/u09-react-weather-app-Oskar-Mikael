@@ -1,26 +1,11 @@
-import React, { useEffect, useState } from "react";
 import './App.css';
 import Weather from './components/Weather';
 import Header from './layouts/Header';
 
 function App() {
 
-  const [lat, setLat] = useState([]);
-  const [long, setLong] = useState([]);
-
-  useEffect(() => {
-
-    const fetchData = async () =>{ navigator.geolocation.getCurrentPosition((position) => {
-      setLat(position.coords.latitude);
-      setLong(position.coords.longitude);
-    })
-  }
-    fetchData();
-  }, [lat, long])
-
-
   return (
-    <div className="App">
+    <div className="App bg-gradient-to-b from-red-200 to-yellow-200 px-4 md:px-0">
       <Header />
       
     
