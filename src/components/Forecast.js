@@ -9,6 +9,7 @@ import rainy from '../assets/rainy.png';
 const Forecast = (props) => {
 
     const response = props.responseObj;
+    const responseHourly = props.responseObjHourly;
 
     // Capitalize the first letter of a string. Useful, because the weather description starts with a lower case.
     const capitalize = (string) => {
@@ -49,10 +50,13 @@ const Forecast = (props) => {
             return 'There was an error with your search, please try again';
         } else if (props.errorMessage.cod === '404') {
             return 'There was an error with your search, please try again';
+        } else if (props.errorMessage === 'Unavailable') {
+            return 'Position unavailable, please enable this in your browser settings'
         }
     }
 
     const dayIndexes = ['0', '1', '2', '3', '4', '5'];
+    const hourIndex = ['0', '3', '6', '9', '12', '15', '18', '21'];
 
     //Get current date an loop for each upcoming day, adding it to an array which is then used to display dates in forecast
     const getDay = (startDate, daysToAdd) => {
@@ -98,7 +102,7 @@ const Forecast = (props) => {
         } else if (weather === 'Rain') {
             weatherImg = rainy;
         }
-        
+
         return weatherImg;
     }
 
@@ -140,11 +144,19 @@ const Forecast = (props) => {
                     ))
                     : null
                 }
-
-
-                <p>{errorValidate()}</p>
-
             </div>
+
+
+
+            <p>{errorValidate()}</p>
+            {responseHourly.cod === '200' ? hourIndex.map((hour, index) => (
+                <div key={index}>
+                    <p>Hour: {unixConvert(responseHourly.list[hour].dt, responseHourly.city.timezone)}</p>
+                    <p>{responseHourly.list[hour].main.temp}</p>
+                    <p></p>
+                </div>
+            ))  : null}
+
         </>
     )
 }
