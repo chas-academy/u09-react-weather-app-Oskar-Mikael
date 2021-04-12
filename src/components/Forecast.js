@@ -5,6 +5,12 @@ import snow from '../assets/snow.png';
 import thunder from '../assets/thunder.png';
 import drizzle from '../assets/drizzle.png';
 import rainy from '../assets/rainy.png';
+import temperature from '../assets/thermometer.png';
+import humidity from '../assets/humidity.png';
+import gauge from '../assets/gauge.png';
+import wind from '../assets/wind.png';
+import sunrise from '../assets/sunrise.png';
+import sunset from '../assets/sunset.png';
 
 const Forecast = (props) => {
 
@@ -111,29 +117,53 @@ const Forecast = (props) => {
 
             {response.cod === '200' &&
                 <div><h2 className="pt-20 text-5xl">{responseHourly.city.name}</h2>
-                    <div className="grid grid-cols-1 md:grid-cols-2 mt-10 gap-x-40">
-                        <div className="p-6 bg-gradient-to-r from-gray-300 to-gray-400 rounded-xl">
+                    <div className="grid grid-cols-1 md:grid-cols-2 mt-10 gap-x-40 gap-y-20">
+                        <div className="p-6 bg-gradient-to-r from-gray-400 to-gray-300 rounded-xl shadow-xl">
                             <h2 className="text-4xl">Today's weather</h2>
-                            <img src={weatherType(response.list[0].weather[0].main)} className="mb-10" alt="cloud" />
-                            <p>{capitalize(response.list[0].weather[0].description)}.</p>
 
-                            <p><strong>Temperature: </strong>{response.list[0].temp.day} {unit} </p>
+                            <img src={weatherType(response.list[0].weather[0].main)} className="mx-auto mb-6" alt={weatherType(response.list[0].weather[0].main)} />
 
-                            <p><strong>Temperature highest: </strong>{response.list[0].temp.max} {unit} </p>
+                            <p className="text-3xl text-center">{capitalize(response.list[0].weather[0].description)}.</p>
 
-                            <p><strong>Temperature lowest: </strong>{response.list[0].temp.min} {unit} </p>
+                            <div>
+                                <p className="text-5xl font-bold mt-10 mb-2">{response.list[0].temp.day} {unit}</p>
+                                <p className="text-lg mb-6">Feels like {response.list[0].feels_like.day} {unit}</p>
+                            </div>
 
-                            <p><strong>Humidity: </strong>{response.list[0].humidity}%</p>
+                            <div className="grid grid-cols-2 gap-y-4">
+                                <div className="flex">
+                                    <img src={temperature} />
+                                    <p className="pl-2"><strong>Highest/Lowest: </strong>{response.list[0].temp.max}/{response.list[0].temp.min} {unit} </p>
+                                </div>
 
-                            <p><strong>Air Pressure: </strong>{response.list[0].pressure} hPa</p>
+                                <div className="flex">
+                                    <img src={humidity} />
+                                    <p className="pl-2"><strong>Humidity: </strong>{response.list[0].humidity}%</p>
+                                </div>
 
-                            <p><strong>Wind: </strong>{response.list[0].speed} m/s </p>
+                                <div className="flex">
+                                    <img src={gauge} />
+                                    <p className="pl-2"><strong>Air Pressure: </strong>{response.list[0].pressure} hPa</p>
+                                </div>
 
-                            <p><strong>Sunrise: </strong>{unixConvert(response.list[0].sunrise, response.city.timezone)}</p>
+                                <div className="flex">
+                                    <img src={wind} />
+                                    <p className="pl-2"><strong>Wind: </strong>{response.list[0].speed} m/s </p>
+                                </div>
 
-                            <p><strong>Sunset: </strong>{unixConvert(response.list[0].sunset, response.city.timezone)}</p>
+                                <div className="flex">
+                                    <img src={sunrise} />
+                                    <p className="pl-2"><strong>Sunrise: </strong>{unixConvert(response.list[0].sunrise, response.city.timezone)}</p>
+                                </div>
+
+                                <div className="flex">
+                                    <img src={sunset}/>
+                                    <p className="pl-2"><strong>Sunset: </strong>{unixConvert(response.list[0].sunset, response.city.timezone)}</p>
+                                </div>
+
+                            </div>
                         </div>
-                        <div className="p-6 bg-gradient-to-r from-gray-400 to-gray-300 rounded-xl">
+                        <div className="p-6 bg-gradient-to-r from-gray-300 to-gray-400 rounded-xl shadow-xl">
                             <h2 className="text-4xl">Hourly forecast</h2>
                             {responseHourly.cod === '200' ? hourIndex.map((hour, index) => (
                                 <div key={index}>
@@ -144,43 +174,48 @@ const Forecast = (props) => {
                             )) : null}
                         </div>
                     </div>
+
                 </div>
+
             }
 
-        <h2 className="mt-10 text-4xl">Daily Forecast</h2>
-            <div className="mt-10 grid grid-cols-1 md:grid-cols-3">
+            <div>
+                <h2 className="pt-20 text-4xl">Daily Forecast</h2>
+                <div className="mt-10 grid grid-cols-1 lg:grid-cols-3">
 
-                {response.cod === '200' ?
+                    {response.cod === '200' ?
 
-                    dayIndexes.map((day, index) => (
-
-
-                        <div key={index} className="mb-10 bg-gray-400 mx-auto p-10 rounded-md">
-                            <h3>{aryDates[day]}</h3>
-                            <img src={weatherType(response.list[day].weather[0].main)} className="mx-auto mb-10" alt="cloud" />
-                            <p>{capitalize(response.list[day].weather[0].description)}.</p>
-
-                            <p><strong>Temperature: </strong>{response.list[day].temp.day} {unit} </p>
-
-                            <p><strong>Temperature highest: </strong>{response.list[day].temp.max} {unit} </p>
-
-                            <p><strong>Temperature lowest: </strong>{response.list[day].temp.min} {unit} </p>
-
-                            <p><strong>Humidity: </strong>{response.list[day].humidity}%</p>
-
-                            <p><strong>Air Pressure: </strong>{response.list[day].pressure} hPa</p>
-
-                            <p><strong>Wind: </strong>{response.list[day].speed} m/s </p>
-
-                            <p><strong>Sunrise: </strong>{unixConvert(response.list[day].sunrise, response.city.timezone)}</p>
-
-                            <p><strong>Sunset: </strong>{unixConvert(response.list[day].sunset, response.city.timezone)}</p>
+                        dayIndexes.map((day, index) => (
 
 
-                        </div>
-                    ))
-                    : null
-                }
+                            <div key={index} className="mb-10 bg-gray-400 mx-auto p-10 rounded-md bg-gradient-to-b from-gray-400 to-gray-300">
+
+                                <h3 className="text-center text-3xl mb-4 font-bold">{aryDates[day]}</h3>
+                                <img src={weatherType(response.list[day].weather[0].main)} className="mx-auto mb-2" alt="cloud" />
+                                <p className="text-center text-2xl mb-6">{capitalize(response.list[day].weather[0].description)}.</p>
+
+                                <p><strong>Temperature: </strong>{response.list[day].temp.day} {unit} </p>
+
+                                <p><strong>Temperature highest: </strong>{response.list[day].temp.max} {unit} </p>
+
+                                <p><strong>Temperature lowest: </strong>{response.list[day].temp.min} {unit} </p>
+
+                                <p><strong>Humidity: </strong>{response.list[day].humidity}%</p>
+
+                                <p><strong>Air Pressure: </strong>{response.list[day].pressure} hPa</p>
+
+                                <p><strong>Wind: </strong>{response.list[day].speed} m/s </p>
+
+                                <p><strong>Sunrise: </strong>{unixConvert(response.list[day].sunrise, response.city.timezone)}</p>
+
+                                <p><strong>Sunset: </strong>{unixConvert(response.list[day].sunset, response.city.timezone)}</p>
+
+
+                            </div>
+                        ))
+                        : null
+                    }
+                </div>
             </div>
 
             <p>{errorValidate()}</p>
