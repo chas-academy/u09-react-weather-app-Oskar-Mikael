@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Forecast from './Forecast';
 import axios from 'axios';
 
@@ -13,6 +13,16 @@ function Weather() {
     const [responseObj, setResponseObj] = useState({});
     const [responseObjHourly, setResponseObjHourly] = useState({});
 
+    const [long, getLong] = useState('');
+    const [lat, getLat] = useState('');
+
+
+    useEffect(() => {
+        navigator.geolocation.getCurrentPosition(position => {
+            getLong(position.coords.longitude);
+            getLat(position.coords.latitude);
+        })
+    })
 
 
     const getForecast = () => {
@@ -31,11 +41,23 @@ function Weather() {
 
     const getHourlyForecast = () => {
         axios.get(`${process.env.REACT_APP_API_URL_HOURLY}units=${unit}&q=${uriEncodedCity}&appid=${process.env.REACT_APP_API_KEY}`)
-        .then(response => {
-            setResponseObjHourly(response.data)
-            console.log(responseObjHourly)
-            setError({})
-        })
+            .then(response => {
+                setResponseObjHourly(response.data)
+                console.log(responseObjHourly)
+                setError({})
+            })
+    }
+
+    const getMyPosition = () => {
+        axios.get(`${process.env.REACT_APP_API_URL}lat=${lat}&lon=${long}&appid=${process.env.REACT_APP_API_KEY}`)
+            .then(response => {
+                setResponseObj(response.data);
+                console.log(responseObj);
+                setError({})
+            })
+        if (!long && !lat) {
+            setError('Unavailable')
+        }
     }
 
     const handleFormSubmit = (e) => {
@@ -80,6 +102,9 @@ function Weather() {
                 <button className="mt-4 bg-green-300 hover:bg-green-200 transition py-2 px-4 rounded-lg font-bold" type="submit">Get Forecast</button>
 
             </form>
+            <button onClick={getMyPosition}>
+                Get my position
+                </button>
             <Forecast responseObj={responseObj} responseObjHourly={responseObjHourly} errorMessage={errorMessage} unit={unit} />
         </div>
     );
