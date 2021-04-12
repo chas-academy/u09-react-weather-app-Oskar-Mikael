@@ -52,6 +52,20 @@ function Weather() {
         axios.get(`${process.env.REACT_APP_API_URL}units=${unit}&lat=${lat}&lon=${long}&appid=${process.env.REACT_APP_API_KEY}`)
             .then(response => {
                 setResponseObj(response.data);
+
+                console.log(responseObj);
+                setError({})
+            })
+        if (!long && !lat) {
+            setError('Unavailable')
+            setResponseObj({});
+        }
+    }
+
+    const getMyPositionHourly = () => {
+        axios.get(`${process.env.REACT_APP_API_URL_HOURLY}units=${unit}&lat=${lat}&lon=${long}&appid=${process.env.REACT_APP_API_KEY}`)
+            .then(response => {
+                setResponseObjHourly(response.data);
                 console.log(responseObj);
                 setError({})
             })
@@ -67,51 +81,37 @@ function Weather() {
         getHourlyForecast();
     }
 
+    const hourlyForecastButton = () => {
+        getMyPosition();
+        getMyPositionHourly();
+    }
+
 
 
     return (
         <div className="container mx-auto">
             <div>
-            <form onSubmit={handleFormSubmit}>
-                <input
-                    className="mt-12 mb-4 bg-gray-200 py-2 px-4"
-                    type="text"
-                    placeholder="Search city weather"
-                    maxLength="50"
-                    value={city}
-                    onChange={(e) => setCity(e.target.value)}
-                /><br></br>
-                <select className="bg-gray-200" onChange={(e) => setUnit(e.target.value)}>
-                    <option name="units" value="metric">Celsius</option>
-                    <option name="units" value="imperial">Fahrenheit</option>
-                </select><br></br>
-                {/* <label className="mr-4">
+                <form onSubmit={handleFormSubmit}>
                     <input
-                        type="radio"
-                        name="units"
-                        checked={unit === "imperial"}
-                        value="imperial"
-                        onChange={(e) => setUnit(e.target.value)}
-                    />
-                    Fahrenheit
-                </label>
-                <label>
-                    <input
-                        type="radio"
-                        name="units"
-                        checked={unit === "metric"}
-                        value="metric"
-                        onChange={(e) => setUnit(e.target.value)}
-                    />
-                    Celcius
-                </label><br></br> */}
-                <button className="mt-4 bg-green-300 hover:bg-green-200 transition py-2 px-4 rounded-lg font-bold" type="submit">Get Forecast</button>
+                        className="mt-12 mb-4 bg-gray-200 py-4 px-6 text-2xl"
+                        type="text"
+                        placeholder="Search city weather"
+                        maxLength="50"
+                        value={city}
+                        onChange={(e) => setCity(e.target.value)}
+                    /><br></br>
+                    <select className="bg-gray-200 py-2 px-4" onChange={(e) => setUnit(e.target.value)}>
+                        <option hidden>Select unit</option>
+                        <option name="units" value="metric">Celsius</option>
+                        <option name="units" value="imperial">Fahrenheit</option>
+                    </select><br></br>
+                    <button className="mt-4 bg-green-300 hover:bg-green-200 transition py-2 px-4 rounded-lg font-bold" type="submit">Get Forecast</button>
 
-            </form>
-            <button onClick={getMyPosition}>
-                Get my position
+                </form>
+                <button onClick={hourlyForecastButton}>
+                    Get my position
                 </button>
-                </div>
+            </div>
             <Forecast responseObj={responseObj} responseObjHourly={responseObjHourly} errorMessage={errorMessage} unit={unit} />
         </div>
     );
