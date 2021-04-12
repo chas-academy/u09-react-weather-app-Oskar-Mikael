@@ -49,7 +49,7 @@ function Weather() {
     }
 
     const getMyPosition = () => {
-        axios.get(`${process.env.REACT_APP_API_URL}lat=${lat}&lon=${long}&appid=${process.env.REACT_APP_API_KEY}`)
+        axios.get(`${process.env.REACT_APP_API_URL}units=${unit}&lat=${lat}&lon=${long}&appid=${process.env.REACT_APP_API_KEY}`)
             .then(response => {
                 setResponseObj(response.data);
                 console.log(responseObj);
@@ -57,6 +57,7 @@ function Weather() {
             })
         if (!long && !lat) {
             setError('Unavailable')
+            setResponseObj({});
         }
     }
 
