@@ -70,7 +70,8 @@ function Weather() {
 
 
     return (
-        <div>
+        <div className="container mx-auto">
+            <div>
             <form onSubmit={handleFormSubmit}>
                 <input
                     className="mt-12 mb-4 bg-gray-200 py-2 px-4"
@@ -80,7 +81,11 @@ function Weather() {
                     value={city}
                     onChange={(e) => setCity(e.target.value)}
                 /><br></br>
-                <label className="mr-4">
+                <select className="bg-gray-200" onChange={(e) => setUnit(e.target.value)}>
+                    <option name="units" value="metric">Celsius</option>
+                    <option name="units" value="imperial">Fahrenheit</option>
+                </select><br></br>
+                {/* <label className="mr-4">
                     <input
                         type="radio"
                         name="units"
@@ -99,13 +104,14 @@ function Weather() {
                         onChange={(e) => setUnit(e.target.value)}
                     />
                     Celcius
-                </label><br></br>
+                </label><br></br> */}
                 <button className="mt-4 bg-green-300 hover:bg-green-200 transition py-2 px-4 rounded-lg font-bold" type="submit">Get Forecast</button>
 
             </form>
             <button onClick={getMyPosition}>
                 Get my position
                 </button>
+                </div>
             <Forecast responseObj={responseObj} responseObjHourly={responseObjHourly} errorMessage={errorMessage} unit={unit} />
         </div>
     );

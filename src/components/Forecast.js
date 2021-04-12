@@ -110,7 +110,44 @@ const Forecast = (props) => {
         <>
 
             {response.cod === '200' &&
-                <h2 className="text-4xl mt-12">{response.city.name} </h2>}
+                <div><h2 className="pt-20 text-5xl">{responseHourly.city.name}</h2>
+                    <div className="grid grid-cols-1 md:grid-cols-2 mt-10 gap-x-40">
+                        <div className="p-6 bg-gradient-to-r from-gray-300 to-gray-400 rounded-xl">
+                            <h2 className="text-4xl">Today's weather</h2>
+                            <img src={weatherType(response.list[0].weather[0].main)} className="mb-10" alt="cloud" />
+                            <p>{capitalize(response.list[0].weather[0].description)}.</p>
+
+                            <p><strong>Temperature: </strong>{response.list[0].temp.day} {unit} </p>
+
+                            <p><strong>Temperature highest: </strong>{response.list[0].temp.max} {unit} </p>
+
+                            <p><strong>Temperature lowest: </strong>{response.list[0].temp.min} {unit} </p>
+
+                            <p><strong>Humidity: </strong>{response.list[0].humidity}%</p>
+
+                            <p><strong>Air Pressure: </strong>{response.list[0].pressure} hPa</p>
+
+                            <p><strong>Wind: </strong>{response.list[0].speed} m/s </p>
+
+                            <p><strong>Sunrise: </strong>{unixConvert(response.list[0].sunrise, response.city.timezone)}</p>
+
+                            <p><strong>Sunset: </strong>{unixConvert(response.list[0].sunset, response.city.timezone)}</p>
+                        </div>
+                        <div className="p-6 bg-gradient-to-r from-gray-400 to-gray-300 rounded-xl">
+                            <h2 className="text-4xl">Hourly forecast</h2>
+                            {responseHourly.cod === '200' ? hourIndex.map((hour, index) => (
+                                <div key={index}>
+                                    <p>Hour: {unixConvert(responseHourly.list[hour].dt, responseHourly.city.timezone)}</p>
+                                    <p>{responseHourly.list[hour].main.temp}</p>
+                                    <p></p>
+                                </div>
+                            )) : null}
+                        </div>
+                    </div>
+                </div>
+            }
+
+        <h2 className="mt-10 text-4xl">Daily Forecast</h2>
             <div className="mt-10 grid grid-cols-1 md:grid-cols-3">
 
                 {response.cod === '200' ?
@@ -146,16 +183,7 @@ const Forecast = (props) => {
                 }
             </div>
 
-
-
             <p>{errorValidate()}</p>
-            {responseHourly.cod === '200' ? hourIndex.map((hour, index) => (
-                <div key={index}>
-                    <p>Hour: {unixConvert(responseHourly.list[hour].dt, responseHourly.city.timezone)}</p>
-                    <p>{responseHourly.list[hour].main.temp}</p>
-                    <p></p>
-                </div>
-            ))  : null}
 
         </>
     )
