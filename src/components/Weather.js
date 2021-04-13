@@ -25,7 +25,9 @@ function Weather() {
     })
 
 
-    const getForecast = () => {
+    const getForecast = (e) => {
+        e.preventDefault();
+
         axios.get(`${process.env.REACT_APP_API_URL}units=${unit}&q=${uriEncodedCity}&appid=${process.env.REACT_APP_API_KEY}`)
             .then(response => {
                 setResponseObj(response.data)
@@ -37,14 +39,17 @@ function Weather() {
                 console.log(errorMessage)
                 setResponseObj({});
             })
-    }
 
-    const getHourlyForecast = () => {
         axios.get(`${process.env.REACT_APP_API_URL_HOURLY}units=${unit}&q=${uriEncodedCity}&appid=${process.env.REACT_APP_API_KEY}`)
             .then(response => {
                 setResponseObjHourly(response.data)
                 console.log(responseObjHourly)
                 setError({})
+            })
+            .catch(response => {
+                setError(response.response.data)
+                console.log(errorMessage)
+                setResponseObj({});
             })
     }
 
@@ -52,48 +57,39 @@ function Weather() {
         axios.get(`${process.env.REACT_APP_API_URL}units=${unit}&lat=${lat}&lon=${long}&appid=${process.env.REACT_APP_API_KEY}`)
             .then(response => {
                 setResponseObj(response.data);
-
                 console.log(responseObj);
                 setError({})
             })
-        if (!long && !lat) {
-            setError('Unavailable')
-            setResponseObj({});
-        }
-    }
+            .catch(response => {
+                setError(response.response.data)
+                console.log(errorMessage)
+                setResponseObj({});
+            })
 
-    const getMyPositionHourly = () => {
         axios.get(`${process.env.REACT_APP_API_URL_HOURLY}units=${unit}&lat=${lat}&lon=${long}&appid=${process.env.REACT_APP_API_KEY}`)
             .then(response => {
                 setResponseObjHourly(response.data);
-                console.log(responseObj);
+                console.log(responseObjHourly);
                 setError({})
             })
+            .catch(response => {
+                setError(response.response.data)
+                console.log(errorMessage)
+                setResponseObj({});
+            })
+
         if (!long && !lat) {
             setError('Unavailable')
             setResponseObj({});
         }
     }
-
-    const handleFormSubmit = (e) => {
-        e.preventDefault();
-        getForecast();
-        getHourlyForecast();
-    }
-
-    const hourlyForecastButton = () => {
-        getMyPosition();
-        getMyPositionHourly();
-    }
-
-
 
     return (
         <div className="container mx-auto">
             <div>
-                <form onSubmit={handleFormSubmit}>
+                <form onSubmit={getForecast}>
                     <input
-                        className="mt-12 mb-4 bg-gray-200 py-4 px-6 text-2xl"
+                        className="mt-12 mb-4 bg-gray-200 py-4 px-6 text-2xl rounded-md"
                         type="text"
                         placeholder="Search city weather"
                         maxLength="50"
@@ -108,7 +104,7 @@ function Weather() {
                     <button className="mt-4 bg-green-300 hover:bg-green-200 transition py-2 px-4 rounded-lg font-bold" type="submit">Get Forecast</button>
 
                 </form>
-                <button onClick={hourlyForecastButton}>
+                <button onClick={getMyPosition}>
                     Get my position
                 </button>
             </div>
