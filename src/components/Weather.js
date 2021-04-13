@@ -85,7 +85,7 @@ function Weather() {
     }
 
     return (
-        <div className="container mx-auto">
+        <div className="container mx-auto pb-20">
             <div>
                 <form onSubmit={getForecast}>
                     <input
@@ -104,8 +104,8 @@ function Weather() {
                     <button className="mt-4 bg-green-300 hover:bg-green-200 transition py-2 px-4 rounded-lg font-bold" type="submit">Get Forecast</button>
 
                 </form>
-                <button onClick={getMyPosition}>
-                    Get my position
+                <button className="mt-4 bg-blue-300 hover:bg-blue-200 transition py-2 px-4 rounded-lg font-bold" onClick={getMyPosition}>
+                    Get my position's Forecast
                 </button>
             </div>
             <Forecast responseObj={responseObj} responseObjHourly={responseObjHourly} errorMessage={errorMessage} unit={unit} />

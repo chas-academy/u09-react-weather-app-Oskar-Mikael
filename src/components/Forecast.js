@@ -119,7 +119,7 @@ const Forecast = (props) => {
                 <div>
                     <h2 className="pt-20 text-5xl">{response.city.name}</h2>
                     <div className="grid grid-cols-1 md:grid-cols-2 mt-10 lg:gap-x-40 gap-x-10 gap-y-20">
-                        <div className="p-6 bg-gradient-to-r from-gray-400 to-gray-300 rounded-xl shadow-xl">
+                        <div className="p-6 bg-gradient-to-r from-gray-400 to-gray-300 rounded-xl shadow-xl self-start">
                             <h2 className="text-4xl font-bold">Today's weather</h2>
 
                             <img src={weatherType(response.list[0].weather[0].main)} className="mx-auto mb-6" alt={weatherType(response.list[0].weather[0].main)} />
@@ -133,32 +133,32 @@ const Forecast = (props) => {
 
                             <div className="grid sm:grid-cols-2 grid-cols-1 gap-y-4">
                                 <div className="flex">
-                                    <img src={temperature} />
+                                    <img src={temperature} alt={temperature}/>
                                     <p className="pl-2"><strong>Highest/Lowest: </strong>{response.list[0].temp.max}/{response.list[0].temp.min} {unit} </p>
                                 </div>
 
                                 <div className="flex">
-                                    <img src={humidity} />
+                                    <img src={humidity} alt={humidity}/>
                                     <p className="pl-2"><strong>Humidity: </strong>{response.list[0].humidity}%</p>
                                 </div>
 
                                 <div className="flex">
-                                    <img src={gauge} />
+                                    <img src={gauge} alt={gauge}/>
                                     <p className="pl-2"><strong>Air Pressure: </strong>{response.list[0].pressure} hPa</p>
                                 </div>
 
                                 <div className="flex">
-                                    <img src={wind} />
+                                    <img src={wind} alt={wind}/>
                                     <p className="pl-2"><strong>Wind: </strong>{response.list[0].speed} m/s </p>
                                 </div>
 
                                 <div className="flex">
-                                    <img src={sunrise} />
+                                    <img src={sunrise} alt={sunrise}/>
                                     <p className="pl-2"><strong>Sunrise: </strong>{unixConvert(response.list[0].sunrise, response.city.timezone)}</p>
                                 </div>
 
                                 <div className="flex">
-                                    <img className="" src={sunset} />
+                                    <img className="" src={sunset} alt={sunset}/>
                                     <p className="pl-2"><strong>Sunset: </strong>{unixConvert(response.list[0].sunset, response.city.timezone)}</p>
                                 </div>
 
@@ -169,10 +169,10 @@ const Forecast = (props) => {
                             <div className="grid md:grid-cols-2 grid-cols-1">
                                 {responseHourly.cod === '200' ? hourIndex.map((hour, index) => (
                                     <div key={index} className="">
-                                        <p className="mt-4 text-2xl font-bold">{unixConvert(responseHourly.list[hour].dt, 0)}</p>
+                                        <p className="mt-4 text-2xl">{unixConvert(responseHourly.list[hour].dt, responseHourly.city.timezone)}</p>
                                         <p className="text-center text-3xl font-bold">{responseHourly.list[hour].main.temp} {unit}</p>
-                                        <img src={weatherType(responseHourly.list[hour].weather[0].main)} className="mx-auto mb-2 md:w-1/4 w-1/3" alt="cloud" />
-                                        <hr></hr>
+                                        <img src={weatherType(responseHourly.list[hour].weather[0].main)} className="mx-auto my-6 md:w-1/4 w-1/3" alt="cloud" />
+                                        <hr className="mx-2"></hr>
                                     </div>
                                 )) : null}
                             </div>
