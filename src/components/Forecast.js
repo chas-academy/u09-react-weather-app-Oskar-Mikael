@@ -116,10 +116,11 @@ const Forecast = (props) => {
         <>
 
             {response.cod === '200' &&
-                <div><h2 className="pt-20 text-5xl">{responseHourly.city.name}</h2>
-                    <div className="grid grid-cols-1 md:grid-cols-2 mt-10 gap-x-40 gap-y-20">
+                <div>
+                    <h2 className="pt-20 text-5xl">{response.city.name}</h2>
+                    <div className="grid grid-cols-1 md:grid-cols-2 mt-10 lg:gap-x-40 gap-x-10 gap-y-20">
                         <div className="p-6 bg-gradient-to-r from-gray-400 to-gray-300 rounded-xl shadow-xl">
-                            <h2 className="text-4xl">Today's weather</h2>
+                            <h2 className="text-4xl font-bold">Today's weather</h2>
 
                             <img src={weatherType(response.list[0].weather[0].main)} className="mx-auto mb-6" alt={weatherType(response.list[0].weather[0].main)} />
 
@@ -130,7 +131,7 @@ const Forecast = (props) => {
                                 <p className="text-lg mb-6">Feels like {response.list[0].feels_like.day} {unit}</p>
                             </div>
 
-                            <div className="grid grid-cols-2 gap-y-4">
+                            <div className="grid sm:grid-cols-2 grid-cols-1 gap-y-4">
                                 <div className="flex">
                                     <img src={temperature} />
                                     <p className="pl-2"><strong>Highest/Lowest: </strong>{response.list[0].temp.max}/{response.list[0].temp.min} {unit} </p>
@@ -157,21 +158,24 @@ const Forecast = (props) => {
                                 </div>
 
                                 <div className="flex">
-                                    <img src={sunset}/>
+                                    <img className="" src={sunset} />
                                     <p className="pl-2"><strong>Sunset: </strong>{unixConvert(response.list[0].sunset, response.city.timezone)}</p>
                                 </div>
 
                             </div>
                         </div>
                         <div className="p-6 bg-gradient-to-r from-gray-300 to-gray-400 rounded-xl shadow-xl">
-                            <h2 className="text-4xl">Hourly forecast</h2>
-                            {responseHourly.cod === '200' ? hourIndex.map((hour, index) => (
-                                <div key={index}>
-                                    <p>Hour: {unixConvert(responseHourly.list[hour].dt, responseHourly.city.timezone)}</p>
-                                    <p>{responseHourly.list[hour].main.temp}</p>
-                                    <p></p>
-                                </div>
-                            )) : null}
+                            <h2 className="text-4xl font-bold">Hourly forecast</h2>
+                            <div className="grid md:grid-cols-2 grid-cols-1">
+                                {responseHourly.cod === '200' ? hourIndex.map((hour, index) => (
+                                    <div key={index} className="">
+                                        <p className="mt-4 text-2xl font-bold">{unixConvert(responseHourly.list[hour].dt, 0)}</p>
+                                        <p className="text-center text-3xl font-bold">{responseHourly.list[hour].main.temp} {unit}</p>
+                                        <img src={weatherType(responseHourly.list[hour].weather[0].main)} className="mx-auto mb-2 md:w-1/4 w-1/3" alt="cloud" />
+                                        <hr></hr>
+                                    </div>
+                                )) : null}
+                            </div>
                         </div>
                     </div>
 
@@ -179,8 +183,7 @@ const Forecast = (props) => {
 
             }
 
-            <div>
-                <h2 className="pt-20 text-4xl">Daily Forecast</h2>
+            <div className="mt-24">
                 <div className="mt-10 grid grid-cols-1 lg:grid-cols-3">
 
                     {response.cod === '200' ?
