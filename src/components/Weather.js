@@ -61,7 +61,7 @@ function Weather() {
                 setError({})
             })
             .catch(response => {
-                setError(response.response.data)
+                setError('Unavailable')
                 console.log(errorMessage)
                 setResponseObj({});
             })
@@ -73,12 +73,13 @@ function Weather() {
                 setError({})
             })
             .catch(response => {
-                setError(response.response.data)
+                setError('Unavailable')
                 console.log(errorMessage)
                 setResponseObj({});
             })
 
         if (!long && !lat) {
+            setError({})
             setError('Unavailable')
             setResponseObj({});
         }
