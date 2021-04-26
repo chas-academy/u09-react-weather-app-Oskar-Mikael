@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Forecast from './Forecast';
+import Loader from './LoadingSpinner';
 import axios from 'axios';
 
 function Weather() {
@@ -7,6 +8,7 @@ function Weather() {
     const [city, setCity] = useState('');
     const [unit, setUnit] = useState('metric');
     const [errorMessage, setError] = useState({});
+    const [loading, setLoading] = useState(false);
 
     const uriEncodedCity = encodeURIComponent(city);
 
@@ -27,17 +29,19 @@ function Weather() {
 
     const getForecast = (e) => {
         e.preventDefault();
-
+        setLoading(true);
         axios.get(`${process.env.REACT_APP_API_URL}units=${unit}&q=${uriEncodedCity}&appid=${process.env.REACT_APP_API_KEY}`)
             .then(response => {
                 setResponseObj(response.data)
                 console.log(response)
                 setError({})
+                setLoading(false);
             })
             .catch(response => {
                 setError(response.response.data)
                 console.log(errorMessage)
                 setResponseObj({});
+                setLoading(false);
             })
 
         axios.get(`${process.env.REACT_APP_API_URL_HOURLY}units=${unit}&q=${uriEncodedCity}&appid=${process.env.REACT_APP_API_KEY}`)
@@ -45,25 +49,30 @@ function Weather() {
                 setResponseObjHourly(response.data)
                 console.log(responseObjHourly)
                 setError({})
+                setLoading(false);
             })
             .catch(response => {
                 setError(response.response.data)
                 console.log(errorMessage)
                 setResponseObj({});
+                setLoading(false);
             })
     }
 
     const getMyPosition = () => {
+        setLoading(true);
         axios.get(`${process.env.REACT_APP_API_URL}units=${unit}&lat=${lat}&lon=${long}&appid=${process.env.REACT_APP_API_KEY}`)
             .then(response => {
                 setResponseObj(response.data);
                 console.log(responseObj);
                 setError({})
+                setLoading(false);
             })
             .catch(response => {
                 setError('Unavailable')
                 console.log(errorMessage)
                 setResponseObj({});
+                setLoading(false);
             })
 
         axios.get(`${process.env.REACT_APP_API_URL_HOURLY}units=${unit}&lat=${lat}&lon=${long}&appid=${process.env.REACT_APP_API_KEY}`)
@@ -71,11 +80,13 @@ function Weather() {
                 setResponseObjHourly(response.data);
                 console.log(responseObjHourly);
                 setError({})
+                setLoading(false);
             })
             .catch(response => {
                 setError('Unavailable')
                 console.log(errorMessage)
                 setResponseObj({});
+                setLoading(false);
             })
 
         if (!long && !lat) {
@@ -109,7 +120,8 @@ function Weather() {
                     Get my position's Forecast
                 </button>
             </div>
-            <Forecast responseObj={responseObj} responseObjHourly={responseObjHourly} errorMessage={errorMessage} unit={unit} />
+            {loading ? <Loader/> : <Forecast responseObj={responseObj} responseObjHourly={responseObjHourly} errorMessage={errorMessage} unit={unit} /> }
+            
         </div>
     );
 }
