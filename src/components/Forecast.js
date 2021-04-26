@@ -11,6 +11,7 @@ import gauge from '../assets/gauge.png';
 import wind from '../assets/wind.png';
 import sunrise from '../assets/sunrise.png';
 import sunset from '../assets/sunset.png';
+import Country from './Country';
 
 const Forecast = (props) => {
 
@@ -117,7 +118,10 @@ const Forecast = (props) => {
 
             {response.cod === '200' &&
                 <div>
-                    <h2 className="pt-20 text-5xl">{response.city.name}</h2>
+                    <div className="md:flex block">
+                    <h2 className="pt-20 text-5xl">{response.city.name},&nbsp;</h2>
+                    <Country country={response.city.country}/>
+                    </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 mt-10 lg:gap-x-40 gap-x-10 gap-y-20">
                         <div className="p-6 bg-gradient-to-r from-gray-400 to-gray-300 rounded-xl shadow-xl self-start">
                             <h2 className="text-4xl font-bold">Today's weather</h2>
