@@ -56,10 +56,10 @@ const Forecast = (props) => {
         if (props.errorMessage.cod === '400') {
             return 'There was an error with your search, please try again';
         } else if (props.errorMessage.cod === '404') {
-            return 'There was an error with your search, please try again';
+            return 'Your search gave no results';
         } else if (props.errorMessage === 'Unavailable') {
             return 'Position unavailable, please enable this in your browser settings'
-        }
+        } 
     }
 
     const dayIndexes = ['0', '1', '2', '3', '4', '5'];
@@ -225,7 +225,7 @@ const Forecast = (props) => {
                 </div>
             </div>
 
-            <p>{errorValidate()}</p>
+            <p className="text-2xl text-center">{errorValidate()}</p>
 
         </>
     )
