@@ -123,7 +123,7 @@ const Forecast = (props) => {
                     <Country country={response.city.country}/>
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 mt-10 lg:gap-x-40 gap-x-10 gap-y-20">
-                        <div className="p-6 bg-gradient-to-r from-gray-400 to-gray-300 rounded-xl shadow-xl self-start">
+                        <div className="p-6 bg-gradient-to-r from-gray-100 to-red-200 rounded-xl shadow-xl self-start">
                             <h2 className="text-4xl font-bold">Today's weather</h2>
 
                             <img src={weatherType(response.list[0].weather[0].main)} className="mx-auto mb-6" alt={weatherType(response.list[0].weather[0].main)} />
@@ -168,7 +168,7 @@ const Forecast = (props) => {
 
                             </div>
                         </div>
-                        <div className="p-6 bg-gradient-to-r from-gray-300 to-gray-400 rounded-xl shadow-xl">
+                        <div className="p-6 bg-gradient-to-r from-blue-200 to-gray-100 rounded-xl shadow-xl">
                             <h2 className="text-4xl font-bold">Hourly forecast</h2>
                             <div className="grid md:grid-cols-2 grid-cols-1">
                                 {responseHourly.cod === '200' ? hourIndex.map((hour, index) => (

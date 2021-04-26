@@ -3,7 +3,7 @@ function Footer() {
 
     return (
         <footer className="bg-gray-800 h-64 border-t-4 border-blue-400">
-            <div className="container my-10 text-white mx-auto">
+            <div className="container my-10 text-white mx-auto px-4 md:p-0">
                 <h2 className="text-2xl font-bold">
                     U09 Weather Application
                 </h2>
