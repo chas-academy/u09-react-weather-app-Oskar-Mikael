@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Forecast from './Forecast';
 import Loader from './LoadingSpinner';
 import axios from 'axios';
+import loupe from '../assets/loupe.png';
 
 function Weather() {
 
@@ -98,27 +99,32 @@ function Weather() {
 
     return (
         <div className="container mx-auto pb-20">
-            <div>
+            <div className="text-center">
                 <form onSubmit={getForecast}>
+                    <div className="flex justify-center">
                     <input
-                        className="mt-12 mb-4 bg-gray-200 py-4 px-6 text-2xl rounded-md"
+                        className="mt-12 mb-4 w-1/2 bg-gray-200 py-4 px-6 text-2xl rounded-md"
                         type="text"
-                        placeholder="Search city weather"
+                        placeholder="Search weather"
                         maxLength="50"
                         value={city}
                         onChange={(e) => setCity(e.target.value)}
                     /><br></br>
+                     <button className="mt-14 ml-2 p-2 h-4/5 bg-green-300 hover:bg-green-200 transition rounded-lg font-bold" type="submit"><img src={loupe} alt="search"/></button>
+                     </div>
                     <select className="bg-gray-200 py-2 px-4" onChange={(e) => setUnit(e.target.value)}>
                         <option hidden>Select unit</option>
                         <option name="units" value="metric">Celsius</option>
                         <option name="units" value="imperial">Fahrenheit</option>
                     </select><br></br>
-                    <button className="mt-4 bg-green-300 hover:bg-green-200 transition py-2 px-4 rounded-lg font-bold" type="submit">Get Forecast</button>
+                   
 
                 </form>
+                <div className="text-left">
                 <button className="mt-4 bg-blue-300 hover:bg-blue-200 transition py-2 px-4 rounded-lg font-bold" onClick={getMyPosition}>
                     Get my position's Forecast
                 </button>
+                </div>
             </div>
             {loading ? <Loader/> : <Forecast responseObj={responseObj} responseObjHourly={responseObjHourly} errorMessage={errorMessage} unit={unit} /> }
             
