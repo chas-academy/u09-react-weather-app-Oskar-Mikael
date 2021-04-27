@@ -43,12 +43,24 @@ const Forecast = (props) => {
         if (minutes.toString().length === 1) {
             minutes = '0' + minutes
         }
-        let seconds = date.getSeconds();
-        if (seconds.toString().length === 1) {
-            seconds = '0' + seconds
+      
+
+        return (`${hours}:${minutes}`);
+    }
+
+    const unixConvertHourly = (unix, timezone) => {
+        const date = new Date((unix + timezone) * 1000);
+
+        let hours = date.getHours();
+        if (hours.toString().length === 1) {
+            hours = '0' + hours
+        }
+        let minutes = date.getMinutes();
+        if (minutes.toString().length === 1) {
+            minutes = '0' + minutes
         }
 
-        return (`${hours}:${minutes}:${seconds}`);
+        return (`${hours}:${minutes}`);
     }
 
     //Return error message if search was faulty
@@ -126,7 +138,7 @@ const Forecast = (props) => {
                         <div className="p-6 bg-gradient-to-r from-gray-100 to-red-200 rounded-xl shadow-xl self-start">
                             <h2 className="text-4xl font-bold">Today's weather</h2>
 
-                            <img src={weatherType(response.list[0].weather[0].main)} className="mx-auto mb-6" alt={weatherType(response.list[0].weather[0].main)} />
+                            <img src={weatherType(response.list[0].weather[0].main)} className="mx-auto mb-6 mt-4" alt={weatherType(response.list[0].weather[0].main)} />
 
                             <p className="text-3xl text-center">{capitalize(response.list[0].weather[0].description)}.</p>
 
@@ -172,11 +184,11 @@ const Forecast = (props) => {
                             <h2 className="text-4xl font-bold">Hourly forecast</h2>
                             <div className="grid md:grid-cols-2 grid-cols-1">
                                 {responseHourly.cod === '200' ? hourIndex.map((hour, index) => (
-                                    <div key={index} className="">
-                                        <p className="mt-4 text-2xl">{unixConvert(responseHourly.list[hour].dt, responseHourly.city.timezone)}</p>
+                                    <div key={index} className="border-b-2 border-black mx-2">
+                                        <p className="mt-4 text-2xl">{unixConvertHourly(responseHourly.list[hour].dt, responseHourly.city.timezone)}</p>
                                         <p className="text-center text-3xl font-bold">{responseHourly.list[hour].main.temp} {unit}</p>
                                         <img src={weatherType(responseHourly.list[hour].weather[0].main)} className="mx-auto my-6 md:w-1/4 w-1/3" alt="cloud" />
-                                        <hr className="mx-2"></hr>
+                                        
                                     </div>
                                 )) : null}
                             </div>
