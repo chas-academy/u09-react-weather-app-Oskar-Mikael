@@ -166,7 +166,7 @@ function Weather() {
                     onViewportChange={viewport => {
                         setViewport(viewport)
                     }}
-                    mapStyle="mapbox://styles/oskarb/cko00ufus570817o5ubebkcmi"><Marker mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_TOKEN} coordinates={[34.98234, 23.1313]}><img src={pin} /></Marker></ReactMapGL></div>}
+                    mapStyle="mapbox://styles/oskarb/cko00ufus570817o5ubebkcmi"><Marker mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_TOKEN} coordinates={[34.98234, 23.1313]}><img src={pin} alt="pin" /></Marker></ReactMapGL></div>}
 
         </div>
     );
