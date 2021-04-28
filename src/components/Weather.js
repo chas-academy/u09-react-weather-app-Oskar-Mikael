@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Forecast from './Forecast';
 import Loader from './LoadingSpinner';
-import ReactMapGL from 'react-map-gl';
+import ReactMapGL from '!react-map-gl';
 import axios from 'axios';
 import loupe from '../assets/loupe.png';
 import Marker from 'react-map-gl';
