@@ -151,7 +151,7 @@ function Weather() {
                 </form>
                 <div className="text-center md:text-left">
                     <button className="mt-4 bg-blue-300 hover:bg-blue-200 transition py-2 px-4 rounded-lg font-bold" onClick={getMyPosition}>
-                        Get my position's Forecast
+                        Get my position's
                 </button>
                 </div>
             </div>
