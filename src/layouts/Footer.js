@@ -16,8 +16,8 @@ function Footer() {
                 <p>
                     Student at Chas Academy
                 </p>
-                <a className="mt-10 underline text-blue-400 hover:no-underline" href="https://oskarbostrom.xyz" target="_blank" rel="noreferrer">
-                    oskarbostrom.xyz
+                <a className="mt-10 underline text-blue-400 hover:no-underline" href="https://oskarbostrom.com" target="_blank" rel="noreferrer">
+                    oskarbostrom.com
                 </a>
             </div>
         </footer>
